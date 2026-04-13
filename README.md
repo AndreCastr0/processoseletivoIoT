@@ -1,7 +1,7 @@
-# Processo Seletivo – Intensivo Maker | Edge AI  
+# Processo Seletivo – Intensivo Maker | IoT
 ## Etapa Prática – Sistemas Embarcados
 
-Bem-vindo(a) à **etapa prática do processo seletivo para o Intensivo Maker | Edge AI**.
+Bem-vindo(a) à **etapa prática do processo seletivo para o Intensivo Maker | IoT**.
 
 Esta atividade tem como objetivo avaliar suas competências em **Sistemas Embarcados**, com foco em **organização de projeto, lógica de firmware e simulação de hardware**, a partir da aplicação prática dos conhecimentos adquiridos nos cursos EAD da etapa anterior.
 
