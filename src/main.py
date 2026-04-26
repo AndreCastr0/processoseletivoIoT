@@ -35,11 +35,24 @@ def medir_distancia_cm():
 
 
 while True:
-    distancia = medir_distancia_cm()
+    for angulo in [0, 30, 60, 90, 120, 150, 180]:
+        mover_servo(angulo)
+        sleep_ms(500)
 
-    if distancia is None:
-        print("Distancia: erro")
-    else:
-        print("Distancia:", round(distancia, 1), "cm")
+        distancia = medir_distancia_cm()
 
-    sleep_ms(700)
+        if distancia is None:
+            print("Angulo:", angulo, "| Distancia: erro")
+        else:
+            print("Angulo:", angulo, "| Distancia:", round(distancia, 1), "cm")
+
+    for angulo in [150, 120, 90, 60, 30]:
+        mover_servo(angulo)
+        sleep_ms(500)
+
+        distancia = medir_distancia_cm()
+
+        if distancia is None:
+            print("Angulo:", angulo, "| Distancia: erro")
+        else:
+            print("Angulo:", angulo, "| Distancia:", round(distancia, 1), "cm")
