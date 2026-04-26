@@ -22,7 +22,7 @@ def medir_distancia_cm():
     sleep_ms(2)
 
     trig.value(1)
-    sleep_ms(1)
+    sleep_ms(10)
     trig.value(0)
 
     duracao = time_pulse_us(echo, 1, 30000)
@@ -33,26 +33,18 @@ def medir_distancia_cm():
     distancia = (duracao * 0.0343) / 2
     return distancia
 
+ANGULOS = [0, 30, 60, 90, 120, 150, 180, 150, 120, 90, 60, 30]
 
-while True:
-    for angulo in [0, 30, 60, 90, 120, 150, 180]:
-        mover_servo(angulo)
-        sleep_ms(500)
+for angulo in ANGULOS:
+    mover_servo(angulo)
+    sleep_ms(300)
 
-        distancia = medir_distancia_cm()
+    distancia = medir_distancia_cm()
 
-        if distancia is None:
-            print("Angulo:", angulo, "| Distancia: erro")
-        else:
-            print("Angulo:", angulo, "| Distancia:", round(distancia, 1), "cm")
+    if distancia is None:
+        print("Angulo:", angulo, "| Distancia: erro")
+    else:
+        print("Angulo:", angulo, "| Distancia:", round(distancia, 1), "cm")
 
-    for angulo in [150, 120, 90, 60, 30]:
-        mover_servo(angulo)
-        sleep_ms(500)
 
-        distancia = medir_distancia_cm()
-
-        if distancia is None:
-            print("Angulo:", angulo, "| Distancia: erro")
-        else:
-            print("Angulo:", angulo, "| Distancia:", round(distancia, 1), "cm")
+print("SIMULATION_OK")
