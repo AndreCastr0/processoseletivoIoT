@@ -244,71 +244,110 @@ Preencha todas as seções abaixo de forma **clara, objetiva e técnica**.
 
 ### 👤 Identificação do Candidato
 
-- **Nome completo:**  
-- **GitHub:**  
+- **Nome completo:André Castro Saraiva Leite**  
+- **GitHub: AndreCastr0 link: https://github.com/AndreCastr0**  
 
 ---
 
 ## 1️⃣ Visão Geral da Solução
 
-Descreva, em poucas palavras:
+Este projeto tem como objetivo implementar um sistema embarcado que simula o funcionamento de um sonar, utilizando um microcontrolador ESP32, sensor ultrassônico, servomotor e uma matriz de LEDs NeoPixel.
 
-- Qual é o objetivo do seu projeto  
-- O que o sistema embarcado simulado faz  
-- Como o usuário interage com ele (se aplicável)
+O sistema realiza uma varredura angular de 180°, detecta um obstáculo e exibe sua posição de forma simplificada por meio de uma matriz de LEDs, além de imprimir no terminal sua distância e nível de criticidade.
+
+Devido às limitações do ambiente de simulação (Wokwi), não é possível detectar obstáculos físicos reais. Por isso, a posição do obstáculo é definida diretamente no código. O usuário pode ajustar manualmente essa posição ou habilitar a geração aleatória.
 
 ---
 
 ## 2️⃣ Arquitetura do Sistema Embarcado
 
-Explique a arquitetura lógica do seu projeto, abordando:
+A arquitetura do sistema foi organizada em três blocos principais: aquisição de dados, processamento lógico e exibição do resultado.
 
-- Fluxo principal do programa (`main.py`)  
-- Estrutura de estados, loops ou temporizações  
-- Como os componentes interagem entre si  
+**Aquisição de dados**  
+O ESP32 controla o servomotor por meio de sinal PWM, posicionando o sensor ultrassônico em diferentes ângulos da varredura frontal. A varredura ocorre em intervalos de 30°, cobrindo as posições 0°, 30°, 60°, 90°, 120°, 150° e 180°. Em cada posição, o sensor HC-SR04 realiza a medição de distância.
 
-Se desejar, utilize tópicos ou um pequeno diagrama em texto.
+**Processamento lógico**  
+O sistema verifica se o ângulo atual corresponde à posição do obstáculo definido e se a distância está dentro do alcance máximo. Quando essas condições são atendidas, a distância é classificada em um dos níveis: CRÍTICO, PERTO, MÉDIO ou LONGE.
+
+**Exibição do resultado**  
+Os resultados são apresentados de duas formas:
+- No terminal: exibindo ângulo, distância e estado
+- Na matriz NeoPixel (4x7): representando o mapa do sonar
+
+Na matriz:
+- Colunas representam os ângulos
+- Linhas representam a distância
+
+As cores indicam o nível de proximidade:
+- Vermelho → crítico  
+- Laranja → perto  
+- Amarelo → médio  
+- Verde → longe  
+
+**Temporização**  
+A temporização é feita com `sleep_us(10)` para disparo do sensor e `sleep_ms(300)` para permitir a estabilização do servomotor antes da leitura.
 
 ---
 
 ## 3️⃣ Componentes Utilizados na Simulação
 
-Liste os principais componentes definidos no `diagram.json`, por exemplo:
-
-- Tipo de placa utilizada  
-- LEDs, botões, sensores, atuadores, etc.  
-- Função de cada componente no sistema  
-
----
+- **ESP32**: responsável pelo controle geral do sistema  
+- **Sensor HC-SR04**: realiza medições de distância (simuladas)  
+- **Servomotor**: executa a varredura angular  
+- **Matriz NeoPixel (4x7)**: exibe o mapa do ambiente  
 
 ## 4️⃣ Decisões Técnicas Relevantes
 
-Explique brevemente decisões importantes tomadas durante o desenvolvimento, como:
+**Organização do código**  
+O código foi dividido em funções para separar responsabilidades, como movimentar o servo, medir distância e exibir o resultado. Isso melhora a legibilidade e manutenção.
 
-- Organização do código  
-- Uso de funções, estados ou constantes  
-- Estratégias para temporização ou controle lógico  
+**Uso de funções e constantes**  
+Funções foram utilizadas para evitar repetição de código, enquanto constantes foram usadas para definir pinos, ângulos e limites, facilitando ajustes futuros.
+
+**Temporização e controle lógico**  
+Foram usados `sleep_ms()` e `sleep_us()` para garantir o funcionamento correto do sensor e do servo.  
+O sistema executa apenas uma varredura (sem loop infinito), permitindo compatibilidade com o GitHub Actions e finalizando com `SIMULATION_OK`.
 
 ---
 
 ## 5️⃣ Resultados Obtidos
 
-Descreva o comportamento final do sistema:
+O sistema apresenta os seguintes resultados:
 
-- O que funciona corretamente  
-- Quais requisitos foram atendidos  
-- Resultado observado na simulação do Wokwi  
+- Varredura correta de 180°
+- Movimentação adequada do servomotor
+- Leitura de distância simulada
+- Classificação correta dos níveis de proximidade
+- Exibição no terminal funcionando corretamente
+- Representação visual do objeto na matriz de LEDs
+
+Na simulação do Wokwi:
+- O sistema executa sem erros
+- O mapa é exibido corretamente
+- O comportamento é consistente com a lógica implementada
 
 ---
+## 6️⃣ Comentários Adicionais
 
-## 6️⃣ Comentários Adicionais (Opcional)
+**Dificuldades**  
+Foram encontrados pequenos desafios na configuração do ambiente e na integração com o GitHub Actions.
 
-Utilize este espaço para comentar, se desejar:
+**Limitações do protótipo**  
+O Wokwi não simula obstáculos físicos reais. Assim, a detecção do objeto é feita por comparação lógica entre o ângulo atual e a posição definida no código. Em um sistema real, o sensor detectaria diretamente o obstáculo.
 
-- Dificuldades encontradas  
-- Limitações da solução  
-- Melhorias que você faria com mais tempo  
-- Principais aprendizados durante o desafio  
+**Possíveis melhorias**
+- Aumentar a quantidade de ângulos para maior precisão  
+- Expandir o tamanho da matriz  
+- Utilizar display OLED para um radar gráfico  
+- Implementar varredura 360°  
+- Melhorar a temporização (evitar delays bloqueantes)  
+
+**Principais aprendizados**
+- Desenvolvimento de sistemas embarcados  
+- Integração de sensores e atuadores  
+- Uso do Wokwi para simulação  
+- Automação com GitHub Actions  
+- Organização e versionamento de código  
 
 ---
 
