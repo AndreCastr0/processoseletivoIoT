@@ -4,6 +4,14 @@ from time import sleep_us
 import random
 from neopixel import NeoPixel
 
+#PARA SELECIONAR POSIÇÃO O OBSTACULO MODIFIQUE SOS VALORES ABAIXO OU DESCOMENTE
+# O MODO ALEATÓRIO NA LINHA 172 e 173
+
+obs_angulo = 0
+obs_distancia = 87
+
+
+
 #EXIBIÇÃO DO MAPA
 
 # linha 0 = crítico, linha 1 = perto, linha 2 = médio, linha 3 = longe
@@ -97,9 +105,6 @@ def mostrar_objeto_na_matriz(angulo, distancia):
 
 #CRIAÇÃO E PROCESSAMENTO DOS DADOS
 
-obs_angulo = 0
-obs_distancia = 0
-
 TOLERANCIA = 10
 ALCANCE_MAX = 400
 
@@ -163,8 +168,9 @@ def classificar_distancia(distancia):
 
 ANGULOS = [0, 30, 60, 90, 120, 150, 180, 150, 120, 90, 60, 30, 0]
 
-obs_angulo = random.choice(ANGULOS) #gerando uma posição aleatória para o obstáculo
-obs_distancia = random.randint(1, 400)
+#obs_angulo = random.choice(ANGULOS) #gerando uma posição aleatória para o obstáculo
+#obs_distancia = random.randint(1, 400)
+
 
 
 # 0° = esquerda
@@ -173,37 +179,41 @@ obs_distancia = random.randint(1, 400)
 
 
 #O sonar faz uma varredura frontal
-for angulo in ANGULOS:
-    mover_servo(angulo) #para cada ângulo, verifique aquela direção e faça a medição de distância que o objeto está.
-    sleep_ms(300) #esperar o movimento acontecer
 
-    distancia = medir_distancia_cm() # sonar mede por padrão até cerca de 400cm
+def executar_varredura():
 
-    if distancia is None:
-        limpar_matriz()
-        print("Angulo:", angulo, "| Distancia: erro")
-    else:
-        estado = classificar_distancia(distancia)
+    for angulo in ANGULOS:
+        mover_servo(angulo) #para cada ângulo, verifique aquela direção e faça a medição de distância que o objeto está.
+        sleep_ms(300) #esperar o movimento acontecer
 
-        if detectar_objeto(angulo, distancia):
-            estado_objeto = classificar_distancia(obs_distancia)
+        distancia = medir_distancia_cm() # sonar mede por padrão até cerca de 400cm
 
-            mostrar_objeto_na_matriz(angulo, obs_distancia)
-
-            print(
-                "Angulo:", angulo,
-                "| Objeto a:", obs_distancia, "cm",
-                "| Estado:", estado_objeto,
-                "| OBJETO DETECTADO"
-            )
-        else:
+        if distancia is None:
             limpar_matriz()
-            print(
-                "Angulo:", angulo,
-                "| Distancia:", round(distancia, 1), "cm",
-                "| Estado:", estado,
-                "| nada detectado"
-            )
+            print("Angulo:", angulo, "| Distancia: erro")
+        else:
+            estado = classificar_distancia(distancia)
 
+            if detectar_objeto(angulo, distancia):
+                estado_objeto = classificar_distancia(obs_distancia)
+
+                mostrar_objeto_na_matriz(angulo, obs_distancia)
+
+                print(
+                    "Angulo:", angulo,
+                    "| Objeto a:", obs_distancia, "cm",
+                    "| Estado:", estado_objeto,
+                    "| OBJETO DETECTADO"
+                )
+            else:
+                limpar_matriz()
+                print(
+                    "Angulo:", angulo,
+                    "| Distancia:", round(distancia, 1), "cm",
+                    "| Estado:", estado,
+                    "| nada detectado"
+                )
+
+executar_varredura()
 
 print("SIMULATION_OK")
