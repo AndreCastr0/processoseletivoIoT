@@ -18,6 +18,14 @@
       "left": 433.8,
       "rotate": 270,
       "attrs": {}
+    },
+    {
+      "type": "wokwi-led-matrix",
+      "id": "matrix2",
+      "top": 201.6,
+      "left": -243.5,
+      "rotate": 180,
+      "attrs": { "rows": "4", "cols": "7", "pixelShape": "circle" }
     }
   ],
   "connections": [
@@ -29,7 +37,10 @@
     [ "esp:GND.3", "servo1:GND", "black", [ "h14.44", "h172.8", "v57.6" ] ],
     [ "esp:5", "ultrasonic1:TRIG", "green", [ "h14.44", "v-19.2", "h115.2", "v-19.2" ] ],
     [ "ultrasonic1:ECHO", "esp:18", "blue", [ "v28.8", "h-0.8", "v105.6" ] ],
-    [ "esp:4", "servo1:PWM", "gold", [ "h235.24", "h191.8" ] ]
+    [ "esp:4", "servo1:PWM", "gold", [ "h235.24", "h191.8" ] ],
+    [ "esp:14", "matrix2:DIN", "purple", [ "h-148.61", "v76.8" ] ],
+    [ "esp:5V", "matrix2:VDD", "red", [ "h-14.21", "v-38.4", "h-144.4" ] ],
+    [ "esp:GND.1", "matrix2:VSS", "black", [ "h0" ] ]
   ],
   "dependencies": {}
 }
